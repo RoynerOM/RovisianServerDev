@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RovisianServerDev.Api", "RovisianServerDev.Api\RovisianServerDev.Api.csproj", "{AFB581E3-C900-4AEA-A421-F1A4EEA541D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFB581E3-C900-4AEA-A421-F1A4EEA541D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB581E3-C900-4AEA-A421-F1A4EEA541D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFB581E3-C900-4AEA-A421-F1A4EEA541D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFB581E3-C900-4AEA-A421-F1A4EEA541D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22E54BD2-AF46-4179-B7A0-E3490BB457D9}
+	EndGlobalSection
+EndGlobal
