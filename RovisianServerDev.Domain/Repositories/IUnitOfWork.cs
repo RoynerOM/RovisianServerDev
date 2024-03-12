@@ -7,6 +7,7 @@ namespace RovisianServerDev.Domain.Repositories
         IBaseRepository<EstadoEntity> EstateRepository { get; }
         IBaseRepository<RolEntity> RolRepository { get; }
         IBaseRepository<BancoEntity> BancoRepository { get; }
+        IBaseRepository<UsuarioEntity> UsuarioRepository { get; }
 
         void SaveChanges();
 

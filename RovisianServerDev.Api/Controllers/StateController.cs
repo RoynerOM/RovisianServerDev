@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RovisianServerDev.Domain.CustomEntities;
 using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.Error;
-using RovisianServerDev.Domain.UseCases;
 using RovisianServerDev.Domain.UseCases.State;
-using System.Collections.Generic;
 
 
 namespace RovisianServerDev.Api.Controllers

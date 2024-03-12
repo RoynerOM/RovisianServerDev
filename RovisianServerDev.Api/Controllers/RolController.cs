@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Domain.UseCases.Rol;
 

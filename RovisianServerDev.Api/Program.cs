@@ -1,23 +1,27 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RovisianServerDev.Domain.Repositories;
 using RovisianServerDev.Domain.Services;
 using RovisianServerDev.Domain.UseCases.Banco;
 using RovisianServerDev.Domain.UseCases.Rol;
 using RovisianServerDev.Domain.UseCases.State;
+using RovisianServerDev.Domain.UseCases.User;
 using RovisianServerDev.Infrastructure.Data;
+using RovisianServerDev.Infrastructure.Filter;
 using RovisianServerDev.Infrastructure.Repositories;
 using RovisianServerDev.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+//Filtro para validar el modelo de forma globlal
+builder.Services.AddMvc(x => x.Filters.Add<ValidationFilter>());
 //DBContext
 builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Rovisian")));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 // Services of Estado
@@ -41,13 +45,13 @@ builder.Services.AddTransient<IGetByIdBancoUseCase, GetByIdBancoCase>();
 builder.Services.AddTransient<IDeleteBancoUseCase, DeleteBancoCase>();
 builder.Services.AddTransient<IUpdateBancoUseCase, UpdateBancoCase>();
 builder.Services.AddTransient<ISaveBancoUseCase, SaveBancoCase>();
-
-
-
-
-
-
-
+// Usuario
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<IGetAllUsersUseCase, GetAllUsers>();
+builder.Services.AddTransient<IGetByIdUserUseCase, GetByIdUser>();
+builder.Services.AddTransient<IDeleteUserUseCase, DeleteUser>();
+builder.Services.AddTransient<IUpdateUserUseCase, UpdateUser>();
+builder.Services.AddTransient<ISaveUserUseCase, SaveUser>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(session =>
