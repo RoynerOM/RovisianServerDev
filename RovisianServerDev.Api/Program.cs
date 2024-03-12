@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RovisianServerDev.Domain.Repositories;
 using RovisianServerDev.Domain.Services;
+using RovisianServerDev.Domain.UseCases.Rol;
 using RovisianServerDev.Domain.UseCases.State;
 using RovisianServerDev.Infrastructure.Data;
 using RovisianServerDev.Infrastructure.Repositories;
@@ -24,6 +25,14 @@ builder.Services.AddTransient<IGetByIdStatesUseCase, GetByIdStateCase>();
 builder.Services.AddTransient<ISaveStatesUseCase, SaveStateCase>();
 builder.Services.AddTransient<IUpdateStatesUseCase, UpdateStateCase>();
 builder.Services.AddTransient<IDeleteStatesUseCase, DeleteStateCase>();
+// Rol
+builder.Services.AddTransient<IRolService, RolService>();
+builder.Services.AddTransient<IGetAllRolUseCase, GetAllRolCase>();
+builder.Services.AddTransient<IGetByIdRolUseCase, GetByIdRolCase>();
+builder.Services.AddTransient<IDeleteRolUseCase, DeleteRolCase>();
+builder.Services.AddTransient<IUpdateRolUseCase, UpdateRolCase>();
+builder.Services.AddTransient<ISaveRolUseCase, SaveRolCase>();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(session =>
 {
@@ -35,9 +44,6 @@ builder.Services.AddSession(session =>
 
 var app = builder.Build();
 
-
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -46,12 +52,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSession();
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 

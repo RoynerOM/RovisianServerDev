@@ -170,7 +170,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_rol")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.Id).HasColumnName("RolId").HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Borrado).HasDefaultValueSql("((0))");
 
