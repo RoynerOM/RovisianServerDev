@@ -10,6 +10,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         private readonly RovisianDBContext _context;
         private readonly IBaseRepository<EstadoEntity>? _estateRepository = null;
         private readonly IBaseRepository<RolEntity>? _rolRepository = null;
+        private readonly IBaseRepository<BancoEntity>? _bancoRepository = null;
 
         public UnitOfWork(RovisianDBContext context)
         {
@@ -18,6 +19,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
 
         public IBaseRepository<EstadoEntity> EstateRepository => _estateRepository ?? new BaseRepository<EstadoEntity>(_context);
         public IBaseRepository<RolEntity> RolRepository => _rolRepository ?? new BaseRepository<RolEntity>(_context);
+        public IBaseRepository<BancoEntity> BancoRepository => _bancoRepository?? new BaseRepository<BancoEntity>(_context);
 
         public void Dispose()
         {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RovisianServerDev.Domain.Repositories;
 using RovisianServerDev.Domain.Services;
+using RovisianServerDev.Domain.UseCases.Banco;
 using RovisianServerDev.Domain.UseCases.Rol;
 using RovisianServerDev.Domain.UseCases.State;
 using RovisianServerDev.Infrastructure.Data;
@@ -17,9 +18,10 @@ builder.Services.AddSwaggerGen();
 //DBContext
 builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Rovisian")));
 
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 // Services of Estado
 builder.Services.AddTransient<IStateService, StateService>();
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IGetAllStatesUseCase, GetAll>();
 builder.Services.AddTransient<IGetByIdStatesUseCase, GetByIdStateCase>();
 builder.Services.AddTransient<ISaveStatesUseCase, SaveStateCase>();
@@ -32,6 +34,20 @@ builder.Services.AddTransient<IGetByIdRolUseCase, GetByIdRolCase>();
 builder.Services.AddTransient<IDeleteRolUseCase, DeleteRolCase>();
 builder.Services.AddTransient<IUpdateRolUseCase, UpdateRolCase>();
 builder.Services.AddTransient<ISaveRolUseCase, SaveRolCase>();
+// Banco
+builder.Services.AddTransient<IBancoService, BancoService>();
+builder.Services.AddTransient<IGetAllBancoUseCase, GetAllBancoCase>();
+builder.Services.AddTransient<IGetByIdBancoUseCase, GetByIdBancoCase>();
+builder.Services.AddTransient<IDeleteBancoUseCase, DeleteBancoCase>();
+builder.Services.AddTransient<IUpdateBancoUseCase, UpdateBancoCase>();
+builder.Services.AddTransient<ISaveBancoUseCase, SaveBancoCase>();
+
+
+
+
+
+
+
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(session =>
