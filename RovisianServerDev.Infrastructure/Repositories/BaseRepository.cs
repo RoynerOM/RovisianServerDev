@@ -11,7 +11,6 @@ namespace RovisianServerDev.Infrastructure.Repositories
     /// <typeparam name="T">Tipo de entidad que se manejará en el repositorio. Debe heredar de <see cref="BaseEntity"/>.</typeparam>
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly RovisianDBContext _context;
         protected readonly DbSet<T> _entities;
 
         /// <summary>
@@ -20,7 +19,6 @@ namespace RovisianServerDev.Infrastructure.Repositories
         /// <param name="context">Contexto de base de datos que se utilizará para operaciones de acceso a datos.</param>
         public BaseRepository(RovisianDBContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             _entities = context.Set<T>();
         }
 
@@ -28,14 +26,14 @@ namespace RovisianServerDev.Infrastructure.Repositories
         /// Obtiene todas las instancias de la entidad <typeparamref name="T"/>.
         /// </summary>
         /// <returns>Una colección de instancias de la entidad <typeparamref name="T"/>.</returns>
-        public IEnumerable<T> GetAll() => _entities.AsEnumerable();
+        public IEnumerable<T> GetAll() => _entities.Where(x => x.Borrado == false).AsEnumerable();
 
         /// <summary>
         /// Obtiene la instancia de la entidad <typeparamref name="T"/> por su identificador.
         /// </summary>
         /// <param name="id">Identificador único de la entidad.</param>
         /// <returns>Una tarea que representa la operación y contiene la instancia de la entidad <typeparamref name="T"/> si se encuentra; de lo contrario, null.</returns>
-        public async Task<T> GetById(Guid id) => await _entities.FirstAsync(x => x.Id == id);
+        public async Task<T> GetById(Guid id) => await _entities.FirstAsync(x => x.Id == id && x.Borrado == false);
 
         /// <summary>
         /// Agrega una nueva instancia de la entidad <typeparamref name="T"/>.
@@ -62,7 +60,10 @@ namespace RovisianServerDev.Infrastructure.Repositories
         /// </summary>
         /// <param name="id">Identificador único de la entidad que se verificará.</param>
         /// <returns>Una tarea que representa la operación y devuelve true si la entidad existe; de lo contrario, false.</returns>
-        public async Task<bool> IfExists(Guid id) => await _entities.FindAsync(id) != null;
+        public async Task<bool> IfExists(Guid id) {
+            T? exist = await _entities.FirstOrDefaultAsync(x => x.Id == id && x.Borrado == false);
+            return await Task.FromResult(exist !=null);
+        }
     }
 
 }
