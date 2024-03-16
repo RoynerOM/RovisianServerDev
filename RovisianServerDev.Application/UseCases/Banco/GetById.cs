@@ -1,21 +1,22 @@
-﻿using RovisianServerDev.Domain.Resources;
-using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.Interfaces.Services;
+﻿using RovisianServerDev.Domain.Interfaces.Services;
 using RovisianServerDev.Domain.Interfaces;
+using AutoMapper;
+using RovisianServerDev.Application.DTOs;
 
 namespace RovisianServerDev.Application.UseCases.Banco
 {
-    public interface IGetByIdBancoUseCase : IUseCase<DataState<BancoEntity>, Guid>{}
+    public interface IGetByIdBancoUseCase : IUseCase<BankDTO, Guid> { }
 
     public class GetByIdBancoCase : IGetByIdBancoUseCase
     {
         private readonly IBancoService _bancoService;
-        public GetByIdBancoCase(IBancoService bancoService)
+        private readonly IMapper _mapper;
+        public GetByIdBancoCase(IBancoService bancoService, IMapper mapper)
         {
             this._bancoService = bancoService;
+            this._mapper = mapper;
         }
 
-        public async Task<DataState<BancoEntity>> Call(Guid values) => await _bancoService.GetById(values);
-
+        public async Task<BankDTO> Call(Guid values) => _mapper.Map<BankDTO>(await _bancoService.GetById(values));
     }
 }

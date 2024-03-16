@@ -1,10 +1,9 @@
 ﻿using RovisianServerDev.Domain.Interfaces;
 using RovisianServerDev.Domain.Interfaces.Services;
-using RovisianServerDev.Domain.Resources;
 
 namespace RovisianServerDev.Application.UseCases.Banco
 {
-    public interface IDeleteBancoUseCase : IUseCase<DataState<bool>, Guid>{}
+    public interface IDeleteBancoUseCase : IUseCase<bool, Guid>{}
 
     public class DeleteBancoCase : IDeleteBancoUseCase
     {
@@ -14,7 +13,6 @@ namespace RovisianServerDev.Application.UseCases.Banco
             this._bancoService = bancoService;
         }
 
-        public async Task<DataState<bool>> Call(Guid values) => await _bancoService.Delete(values);
-
+        public async Task<bool> Call(Guid values) => await _bancoService.Delete(values);
     }
 }

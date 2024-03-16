@@ -14,6 +14,5 @@ namespace RovisianServerDev.Application.UseCases.Rol
         }
 
         public async Task<bool> Call(Guid values) => await _rolService.Delete(values);
-
     }
 }

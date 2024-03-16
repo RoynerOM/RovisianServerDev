@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Application.UseCases.Banco;
+using RovisianServerDev.Application.DTOs;
 
 namespace RovisianServerDev.Api.Controllers
 {
@@ -29,10 +29,10 @@ namespace RovisianServerDev.Api.Controllers
         public async Task<ActionResult> GetById(Guid id) => Ok(await _getByIdBancoUseCase.Call(id));
 
         [HttpPost]
-        public async Task<ActionResult> PostBanco(BancoEntity model) => Ok(await _saveBancoUseCase.Call(model));
+        public async Task<ActionResult> PostBanco(BankDTO dto) => Ok(await _saveBancoUseCase.Call(dto));
 
         [HttpPut]
-        public async Task<ActionResult> PutBanco(BancoEntity model) => Ok(await _updateBancoUseCase.Call(model));
+        public async Task<ActionResult> PutBanco(BankDTO dto) => Ok(await _updateBancoUseCase.Call(dto));
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteBanco(Guid id) => Ok(await _deleteBancoUseCase.Call(id));

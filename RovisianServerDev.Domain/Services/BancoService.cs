@@ -1,5 +1,4 @@
-﻿using RovisianServerDev.Domain.Resources;
-using RovisianServerDev.Domain.Entities;
+﻿using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Domain.Error;
 using RovisianServerDev.Domain.Interfaces.Repositories;
 using RovisianServerDev.Domain.Interfaces.Services;
@@ -14,108 +13,61 @@ namespace RovisianServerDev.Domain.Services
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<DataState<bool>> Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            try
+            if (!await _unitOfWork.BancoRepository.IfExists(id))
             {
-                if (!await _unitOfWork.BancoRepository.IfExists(id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Banco con el ID proporcionado");
-                }
-
-                BancoEntity model = await _unitOfWork.BancoRepository.GetById(id);
-                model.Borrado = true;
-
-                _unitOfWork.BancoRepository.Update(model);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<bool>(true));
+                throw new DataNotFoundException($"No se pudo encontrar el Banco con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<bool>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            BancoEntity model = await _unitOfWork.BancoRepository.GetById(id);
+            model.Borrado = true;
+
+            _unitOfWork.BancoRepository.Update(model);
+
+            await _unitOfWork.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
 
-        public async Task<DataState<IEnumerable<BancoEntity>>> GetAll()
+        public async Task<IEnumerable<BancoEntity>> GetAll() => await _unitOfWork.BancoRepository.GetAll();
+
+        public async Task<BancoEntity> GetById(Guid id)
         {
-            try
+            if (!await _unitOfWork.BancoRepository.IfExists(id))
             {
-                IEnumerable<BancoEntity> response = await _unitOfWork.BancoRepository.GetAll();
-                return await Task.FromResult(new DataSuccess<IEnumerable<BancoEntity>>(response));
+                throw new DataNotFoundException($"No se pudo encontrar el Banco con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<IEnumerable<BancoEntity>>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            return await _unitOfWork.BancoRepository.GetById(id);
         }
 
-        public async Task<DataState<BancoEntity>> GetById(Guid id)
+        public async Task Save(BancoEntity e)
         {
-            try
+            if (await _unitOfWork.BancoRepository.IfExists(e.Id))
             {
-                if (!await _unitOfWork.BancoRepository.IfExists(id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Banco con el ID proporcionado");
-                }
-
-                BancoEntity response = await _unitOfWork.BancoRepository.GetById(id);
-
-                return await Task.FromResult(new DataSuccess<BancoEntity>(response));
+                throw new DataNotFoundException($"Ya existe un Banco con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<BancoEntity>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            await _unitOfWork.BancoRepository.Add(e);
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<DataState<Task>> Save(BancoEntity e)
+        public async Task<bool> Update(BancoEntity e)
         {
-            try
+            if (!await _unitOfWork.BancoRepository.IfExists(e.Id))
             {
-                if (await _unitOfWork.BancoRepository.IfExists(e.Id))
-                {
-                    throw new DataNotFoundException($"Ya existe un Banco con el ID proporcionado");
-                }
-
-                await _unitOfWork.BancoRepository.Add(e);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<Task>(Task.FromResult(true)));
+                throw new DataNotFoundException($"No se pudo encontrar el Banco con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<Task>(ex.Message);
-                return await Task.FromResult(error);
-            }
-        }
 
-        public async Task<DataState<bool>> Update(BancoEntity e)
-        {
-            try
-            {
-                if (!await _unitOfWork.BancoRepository.IfExists(e.Id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Banco con el ID proporcionado");
-                }
+            BancoEntity model = await _unitOfWork.BancoRepository.GetById(e.Id);
 
-                BancoEntity model = await _unitOfWork.BancoRepository.GetById(e.Id);
+            model.Nombre = e.Nombre;
 
-                model.Nombre = e.Nombre;
+            _unitOfWork.BancoRepository.Update(model);
 
-                _unitOfWork.BancoRepository.Update(model);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<bool>(true));
-            }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<bool>(ex.Message);
-                return await Task.FromResult(error);
-            }
+            await _unitOfWork.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
     }
 }
