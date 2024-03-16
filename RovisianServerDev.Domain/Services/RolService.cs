@@ -1,5 +1,4 @@
-﻿using RovisianServerDev.Domain.Resources;
-using RovisianServerDev.Domain.Entities;
+﻿using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Domain.Error;
 using RovisianServerDev.Domain.Interfaces.Repositories;
 using RovisianServerDev.Domain.Interfaces.Services;
@@ -15,108 +14,64 @@ namespace RovisianServerDev.Domain.Services
             this._unitOfWork = unitOfWork;
         }
 
-        public async Task<DataState<bool>> Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            try
+            if (!await _unitOfWork.RolRepository.IfExists(id))
             {
-                if (!await _unitOfWork.RolRepository.IfExists(id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Rol con el ID proporcionado");
-                }
-
-                RolEntity model = await _unitOfWork.RolRepository.GetById(id);
-                model.Borrado = true;
-
-                _unitOfWork.RolRepository.Update(model);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<bool>(true));
+                throw new DataNotFoundException($"No se pudo encontrar el Rol con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<bool>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            RolEntity model = await _unitOfWork.RolRepository.GetById(id);
+            model.Borrado = true;
+
+            _unitOfWork.RolRepository.Update(model);
+
+            await _unitOfWork.SaveChangesAsync();
+            return await Task.FromResult(true);
+
         }
 
-        public async Task<DataState<IEnumerable<RolEntity>>> GetAll()
+        public async Task<IEnumerable<RolEntity>> GetAll() => await _unitOfWork.RolRepository.GetAll();
+
+        public async Task<RolEntity> GetById(Guid id)
         {
-            try
+            if (!await _unitOfWork.RolRepository.IfExists(id))
             {
-                IEnumerable<RolEntity> response = await _unitOfWork.RolRepository.GetAll();
-                return await Task.FromResult(new DataSuccess<IEnumerable<RolEntity>>(response));
+                throw new DataNotFoundException($"No se pudo encontrar el Rol con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<IEnumerable<RolEntity>>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            RolEntity response = await _unitOfWork.RolRepository.GetById(id);
+
+            return await Task.FromResult(response);
         }
 
-        public async Task<DataState<RolEntity>> GetById(Guid id)
+        public async Task Save(RolEntity e)
         {
-            try
+            if (await _unitOfWork.RolRepository.IfExists(e.Id))
             {
-                if (!await _unitOfWork.RolRepository.IfExists(id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Rol con el ID proporcionado");
-                }
-
-                RolEntity response = await _unitOfWork.RolRepository.GetById(id);
-
-                return await Task.FromResult(new DataSuccess<RolEntity>(response));
+                throw new DataNotFoundException($"Ya existe un Rol con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<RolEntity>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            await _unitOfWork.RolRepository.Add(e);
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<DataState<Task>> Save(RolEntity e)
+        public async Task<bool> Update(RolEntity e)
         {
-            try
+            if (!await _unitOfWork.RolRepository.IfExists(e.Id))
             {
-                if (await _unitOfWork.RolRepository.IfExists(e.Id))
-                {
-                    throw new DataNotFoundException($"Ya existe un Rol con el ID proporcionado");
-                }
-
-                await _unitOfWork.RolRepository.Add(e);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<Task>(Task.FromResult(true)));
+                throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<Task>(ex.Message);
-                return await Task.FromResult(error);
-            }
-        }
 
-        public async Task<DataState<bool>> Update(RolEntity e)
-        {
-            try
-            {
-                if (!await _unitOfWork.RolRepository.IfExists(e.Id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
-                }
+            RolEntity model = await _unitOfWork.RolRepository.GetById(e.Id);
 
-                RolEntity model = await _unitOfWork.RolRepository.GetById(e.Id);
+            model.Nombre = e.Nombre;
 
-                model.Nombre = e.Nombre;
+            _unitOfWork.RolRepository.Update(model);
 
-                _unitOfWork.RolRepository.Update(model);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<bool>(true));
-            }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<bool>(ex.Message);
-                return await Task.FromResult(error);
-            }
+            await _unitOfWork.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
     }
 }

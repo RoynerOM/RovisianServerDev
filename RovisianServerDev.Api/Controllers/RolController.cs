@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Application.UseCases.Rol;
+using RovisianServerDev.Application.DTOs;
 
 namespace RovisianServerDev.Api.Controllers
 {
@@ -29,10 +29,10 @@ namespace RovisianServerDev.Api.Controllers
         public async Task<ActionResult> GetById(Guid id) => Ok(await _getByIdRolUseCase.Call(id));
 
         [HttpPost]
-        public async Task<ActionResult> PostRol(RolEntity model) => Ok(await _saveRolUseCase.Call(model));
+        public async Task<ActionResult> PostRol(RolDTO dto) => Ok(await _saveRolUseCase.Call(dto));
 
         [HttpPut]
-        public async Task<ActionResult> PutRol(RolEntity model) => Ok(await _updateRolUseCase.Call(model));
+        public async Task<ActionResult> PutRol(RolDTO dto) => Ok(await _updateRolUseCase.Call(dto));
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRol(Guid id) => Ok(await _deleteRolUseCase.Call(id));

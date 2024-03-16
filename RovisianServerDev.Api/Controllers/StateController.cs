@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RovisianServerDev.Application.DTOs;
-using RovisianServerDev.Domain.Resources;
-using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Application.UseCases.State;
 
 namespace RovisianServerDev.Api.Controllers
@@ -31,35 +29,31 @@ namespace RovisianServerDev.Api.Controllers
         public async Task<ActionResult> GetAll()
         {
             var data = await _getAllStatesUseCase.Call(null);
-            return Ok(_mapper.Map<IEnumerable<StateDTO>>(data.Data));
+            return Ok(data);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> GetById(Guid id)
         {
-            DataState<EstadoEntity> dataState = await _getByIdStatesUseCase.Call(id);
-            return Ok(dataState.ToJson());
+            return Ok(await _getByIdStatesUseCase.Call(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Save(EstadoEntity e)
+        public async Task<ActionResult> Save(StateDTO e)
         {
-            DataState<Task> dataState = await _saveStatesUseCase.Call(e);
-            return Ok(dataState.ToJson());
+            return Ok(await _saveStatesUseCase.Call(e));
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update(EstadoEntity e)
+        public async Task<ActionResult> Update(StateDTO e)
         {
-            DataState<bool> dataState = await _updateStatesUseCase.Call(e);
-            return Ok(dataState.ToJson());
+            return Ok(await _updateStatesUseCase.Call(e));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            DataState<bool> dataState = await _deleteStatesUseCase.Call(id);
-            return Ok(dataState.ToJson());
+            return Ok(await _deleteStatesUseCase.Call(id));
         }
     }
 }

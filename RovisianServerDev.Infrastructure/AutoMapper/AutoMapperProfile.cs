@@ -14,6 +14,8 @@ namespace RovisianServerDev.Infrastructure.AutoMapper
             //State
             CreateMap<EstadoEntity, StateDTO>();
             CreateMap<StateDTO, EstadoEntity>();
+            //Rol
+            CreateMap<RolDTO, RolEntity>().ReverseMap();
         }
     }
 }
