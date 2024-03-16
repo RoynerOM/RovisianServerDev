@@ -67,6 +67,7 @@ namespace RovisianServerDev.Domain.Services
             RolEntity model = await _unitOfWork.RolRepository.GetById(e.Id);
 
             model.Nombre = e.Nombre;
+            model.Descripcion = e.Descripcion;
 
             _unitOfWork.RolRepository.Update(model);
 
