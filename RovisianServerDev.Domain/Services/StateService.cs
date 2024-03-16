@@ -2,7 +2,6 @@
 using RovisianServerDev.Domain.Interfaces.Repositories;
 using RovisianServerDev.Domain.Interfaces.Services;
 using RovisianServerDev.Domain.Error;
-using RovisianServerDev.Domain.Resources;
 
 
 namespace RovisianServerDev.Domain.Services
@@ -16,108 +15,74 @@ namespace RovisianServerDev.Domain.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<DataState<bool>> DeleteState(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            try
+            if (!await _unitOfWork.EstateRepository.IfExists(id))
             {
-                if (!await _unitOfWork.EstateRepository.IfExists(id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
-                }
-
-                EstadoEntity model = await _unitOfWork.EstateRepository.GetById(id);
-                model.Borrado = true;
-
-                _unitOfWork.EstateRepository.Update(model);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<bool>(true));
+                throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<bool>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            EstadoEntity model = await _unitOfWork.EstateRepository.GetById(id);
+            model.Borrado = true;
+
+            _unitOfWork.EstateRepository.Update(model);
+
+            await _unitOfWork.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
 
-        public async Task<DataState<IEnumerable<EstadoEntity>>> GetAll()
+        public async Task<IEnumerable<EstadoEntity>> GetAll()
         {
             try
             {
                 IEnumerable<EstadoEntity> response = await _unitOfWork.EstateRepository.GetAll();
-                return await Task.FromResult(new DataSuccess<IEnumerable<EstadoEntity>>(response));
+                return await Task.FromResult(response);
             }
             catch (Exception ex)
             {
-                var error = new DataFailed<IEnumerable<EstadoEntity>>(ex.Message);
-                return await Task.FromResult(error);
+                throw new DomainException(ex.Message);
             }
         }
 
-        public async Task<DataState<EstadoEntity>> GetById(Guid id)
+        public async Task<EstadoEntity> GetById(Guid id)
         {
-            try
+            if (!await _unitOfWork.EstateRepository.IfExists(id))
             {
-                if (!await _unitOfWork.EstateRepository.IfExists(id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
-                }
-
-                EstadoEntity response = await _unitOfWork.EstateRepository.GetById(id);
-
-                return await Task.FromResult(new DataSuccess<EstadoEntity>(response));
+                throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<EstadoEntity>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            EstadoEntity response = await _unitOfWork.EstateRepository.GetById(id);
+
+            return await Task.FromResult(response);
         }
 
-        public async Task<DataState<Task>> SaveState(EstadoEntity post)
+        public async Task Save(EstadoEntity post)
         {
-            try
+            if (await _unitOfWork.EstateRepository.IfExists(post.Id))
             {
-                if (await _unitOfWork.EstateRepository.IfExists(post.Id))
-                {
-                    throw new DataNotFoundException($"Ya existe un Estado con el ID proporcionado");
-                }
-
-                await _unitOfWork.EstateRepository.Add(post);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<Task>(Task.FromResult(true)));
+                throw new DataNotFoundException($"Ya existe un Estado con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<Task>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            await _unitOfWork.EstateRepository.Add(post);
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<DataState<bool>> UpdateState(EstadoEntity post)
+        public async Task<bool> Update(EstadoEntity post)
         {
-            try
+            if (!await _unitOfWork.EstateRepository.IfExists(post.Id))
             {
-                if (!await _unitOfWork.EstateRepository.IfExists(post.Id))
-                {
-                    throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
-                }
-
-                EstadoEntity model = await _unitOfWork.EstateRepository.GetById(post.Id);
-
-                model.Nombre = post.Nombre;
-
-                _unitOfWork.EstateRepository.Update(model);
-
-                await _unitOfWork.SaveChangesAsync();
-                return await Task.FromResult(new DataSuccess<bool>(true));
+                throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
             }
-            catch (Exception ex)
-            {
-                var error = new DataFailed<bool>(ex.Message);
-                return await Task.FromResult(error);
-            }
+
+            EstadoEntity model = await _unitOfWork.EstateRepository.GetById(post.Id);
+
+            model.Nombre = post.Nombre;
+
+            _unitOfWork.EstateRepository.Update(model);
+
+            await _unitOfWork.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
     }
 }

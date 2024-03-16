@@ -1,22 +1,23 @@
-﻿using RovisianServerDev.Domain.Resources;
-using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.Interfaces.Services;
+﻿using RovisianServerDev.Domain.Interfaces.Services;
 using RovisianServerDev.Domain.Interfaces;
+using RovisianServerDev.Application.DTOs;
+using AutoMapper;
 
 namespace RovisianServerDev.Application.UseCases.State
 {
-    public interface IGetByIdStatesUseCase : IUseCase<DataState<EstadoEntity>, Guid> {}
+    public interface IGetByIdStatesUseCase : IUseCase<StateDTO, Guid> { }
 
     public class GetByIdStateCase : IGetByIdStatesUseCase
     {
         private readonly IStateService _stateService;
-        public GetByIdStateCase(IStateService stateService)
+        private readonly IMapper _mapper;
+
+        public GetByIdStateCase(IStateService stateService, IMapper mapper)
         {
             this._stateService = stateService;
+            this._mapper = mapper;
         }
 
-        public async Task<DataState<EstadoEntity>> Call(Guid values) => await _stateService.GetById(values);
-
-
+        public async Task<StateDTO> Call(Guid values) => _mapper.Map<StateDTO>(await _stateService.GetById(values));
     }
 }

@@ -1,21 +1,23 @@
-﻿using RovisianServerDev.Domain.Resources;
-using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.Interfaces.Services;
+﻿using RovisianServerDev.Domain.Interfaces.Services;
 using RovisianServerDev.Domain.Interfaces;
+using AutoMapper;
+using RovisianServerDev.Application.DTOs;
 
 namespace RovisianServerDev.Application.UseCases.State
 {
-    public interface IGetAllStatesUseCase : IUseCase<DataState<IEnumerable<EstadoEntity>>, object> {}
+    public interface IGetAllStatesUseCase : IUseCase<IEnumerable<StateDTO>, object> { }
 
     public class GetAll : IGetAllStatesUseCase
     {
         private readonly IStateService _stateService;
-        public GetAll(IStateService stateService)
+        private readonly IMapper _mapper;
+
+        public GetAll(IStateService stateService, IMapper mapper)
         {
             this._stateService = stateService;
+            this._mapper = mapper;
         }
 
-        public async Task<DataState<IEnumerable<EstadoEntity>>> Call(object? values) => await _stateService.GetAll();
-
+        public async Task<IEnumerable<StateDTO>> Call(object? values) => _mapper.Map<IEnumerable<StateDTO>>(await _stateService.GetAll());
     }
 }
