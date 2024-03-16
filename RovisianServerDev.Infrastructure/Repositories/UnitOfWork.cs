@@ -1,7 +1,6 @@
 ﻿using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.Repositories;
+using RovisianServerDev.Domain.Interfaces.Repositories;
 using RovisianServerDev.Infrastructure.Data;
-
 
 namespace RovisianServerDev.Infrastructure.Repositories
 {
@@ -11,7 +10,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         private readonly IBaseRepository<EstadoEntity>? _estateRepository = null;
         private readonly IBaseRepository<RolEntity>? _rolRepository = null;
         private readonly IBaseRepository<BancoEntity>? _bancoRepository = null;
-        private readonly IBaseRepository<UsuarioEntity>? _usuarioRepository = null;
+        private readonly IUserRepository? _usuarioRepository = null;
 
         public UnitOfWork(RovisianDBContext context)
         {
@@ -21,7 +20,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         public IBaseRepository<EstadoEntity> EstateRepository => _estateRepository ?? new BaseRepository<EstadoEntity>(_context);
         public IBaseRepository<RolEntity> RolRepository => _rolRepository ?? new BaseRepository<RolEntity>(_context);
         public IBaseRepository<BancoEntity> BancoRepository => _bancoRepository?? new BaseRepository<BancoEntity>(_context);
-        public IBaseRepository<UsuarioEntity> UsuarioRepository => _usuarioRepository ?? new BaseRepository<UsuarioEntity>(_context);
+        public IUserRepository UsuarioRepository => _usuarioRepository ?? new UserRepository(_context);
 
         public void Dispose()
         {

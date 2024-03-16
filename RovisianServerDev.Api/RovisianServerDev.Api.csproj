@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.27">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RovisianServerDev.Core\RovisianServerDev.Core.csproj" />
+    <ProjectReference Include="..\RovisianServerDev.Application\RovisianServerDev.Application.csproj" />
     <ProjectReference Include="..\RovisianServerDev.Domain\RovisianServerDev.Domain.csproj" />
     <ProjectReference Include="..\RovisianServerDev.Infrastructure\RovisianServerDev.Infrastructure.csproj" />
   </ItemGroup>

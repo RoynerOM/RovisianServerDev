@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.Repositories;
+using RovisianServerDev.Domain.Interfaces.Repositories;
 using RovisianServerDev.Infrastructure.Data;
 
 namespace RovisianServerDev.Infrastructure.Repositories
@@ -26,7 +26,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         /// Obtiene todas las instancias de la entidad <typeparamref name="T"/>.
         /// </summary>
         /// <returns>Una colección de instancias de la entidad <typeparamref name="T"/>.</returns>
-        public IEnumerable<T> GetAll() => _entities.Where(x => x.Borrado == false).AsEnumerable();
+        public async Task<IEnumerable<T>> GetAll() => await Task.FromResult(_entities.Where(x => x.Borrado == false).AsEnumerable());
 
         /// <summary>
         /// Obtiene la instancia de la entidad <typeparamref name="T"/> por su identificador.

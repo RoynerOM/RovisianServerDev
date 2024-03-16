@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.UseCases.Banco;
+using RovisianServerDev.Application.UseCases.Banco;
 
 namespace RovisianServerDev.Api.Controllers
 {
@@ -21,7 +21,6 @@ namespace RovisianServerDev.Api.Controllers
             this._updateBancoUseCase = updateBancoUseCase;
             this._saveBancoUseCase = saveBancoUseCase;
         }
-
 
         [HttpGet]
         public async Task<ActionResult> GetAll() => Ok(await _getAllBancoCase.Call(null));

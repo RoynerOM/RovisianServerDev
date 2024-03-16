@@ -1,11 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using RovisianServerDev.Core.DTOs;
-using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.UseCases.User;
+﻿using Microsoft.AspNetCore.Mvc;
+using RovisianServerDev.Application.DTOs;
+using RovisianServerDev.Application.UseCases.User;
 
 namespace RovisianServerDev.Api.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -15,39 +14,53 @@ namespace RovisianServerDev.Api.Controllers
         private readonly IDeleteUserUseCase _deleteUser;
         private readonly IUpdateUserUseCase _updateUser;
         private readonly ISaveUserUseCase _saveUser;
-        private readonly IMapper _mapper;
-        public UserController(IGetAllUsersUseCase getAllUsers, IGetByIdUserUseCase getByIdUserUseCase, IDeleteUserUseCase deleteUserUseCase, IUpdateUserUseCase updateUserUseCase, ISaveUserUseCase saveUserUseCase, IMapper mapper)
+     
+        public UserController(IGetAllUsersUseCase getAllUsers, IGetByIdUserUseCase getByIdUserUseCase, IDeleteUserUseCase deleteUserUseCase, IUpdateUserUseCase updateUserUseCase, ISaveUserUseCase saveUserUseCase)
         {
             this._getAllUsers = getAllUsers;
             this._getByIdUser = getByIdUserUseCase;
             this._deleteUser = deleteUserUseCase;
             this._updateUser = updateUserUseCase;
             this._saveUser = saveUserUseCase;
-            this._mapper = mapper;
         }
 
-
         [HttpGet]
+        [ProducesResponseType(200,Type = typeof(IEnumerable<UserDTO>))]
         public async Task<ActionResult> GetAll()
         {
             var data = await _getAllUsers.Call(null);
-            return Ok(_mapper.Map<IEnumerable<UserDTO>>(data.Data));
+            return Ok(data);
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(UserDTO))]
         public async Task<ActionResult> GetById(Guid id)
         {
             var data = await _getByIdUser.Call(id);
-            return Ok(_mapper.Map<UserDTO>(data.Data));
+            return Ok(data);
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostUsuario(UserDTO model) => Ok(await _saveUser.Call(_mapper.Map<UsuarioEntity>(model)));
+        public async Task<ActionResult> PostUsuario(UserDTO? dto)
+        {
+            return Ok(await _saveUser.Call(dto));
+        }
 
         [HttpPut]
-        public async Task<ActionResult> PutUsuario(UserDTO model) => Ok(await _updateUser.Call(_mapper.Map<UsuarioEntity>(model)));
+        public async Task<ActionResult> PutUsuario(Guid id, UserDTO model)
+        {
+            model.Id = id;
+
+            var data = await _updateUser.Call(model);
+            return Ok(data);
+        }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUsuario(Guid id) => Ok(await _deleteUser.Call(id));
+        public async Task<ActionResult> DeleteUsuario(Guid id)
+        {
+            var data = await _deleteUser.Call(id);
+
+            return Ok(data);
+        }
     }
 }

@@ -7,7 +7,6 @@
             Usuarios = new HashSet<UsuarioEntity>();
         }
 
-       
         public string Nombre { get; set; } = null!;
         public string? Descripcion { get; set; }
 

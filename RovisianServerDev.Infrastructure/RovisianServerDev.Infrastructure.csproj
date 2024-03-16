@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RovisianServerDev.Core\RovisianServerDev.Core.csproj" />
+    <ProjectReference Include="..\RovisianServerDev.Application\RovisianServerDev.Application.csproj" />
     <ProjectReference Include="..\RovisianServerDev.Domain\RovisianServerDev.Domain.csproj" />
   </ItemGroup>
 

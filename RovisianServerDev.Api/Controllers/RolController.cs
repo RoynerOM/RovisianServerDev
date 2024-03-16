@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RovisianServerDev.Domain.Entities;
-using RovisianServerDev.Domain.UseCases.Rol;
+using RovisianServerDev.Application.UseCases.Rol;
 
 namespace RovisianServerDev.Api.Controllers
 {
@@ -21,7 +21,6 @@ namespace RovisianServerDev.Api.Controllers
             this._updateRolUseCase = updateRolUseCase;
             this._saveRolUseCase = saveRolUseCase;
         }
-
 
         [HttpGet]
         public async Task<ActionResult> GetAll()=> Ok(await _getAllRolUseCase.Call(null));
