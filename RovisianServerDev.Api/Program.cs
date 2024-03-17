@@ -19,6 +19,7 @@ using RovisianServerDev.Infrastructure.Filter;
 using RovisianServerDev.Infrastructure.Filters;
 using RovisianServerDev.Infrastructure.Repositories;
 using System.Text;
+using RovisianServerDev.Application.UseCases.Institution;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,13 +78,23 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-// Services of Estado
+// Estado
 builder.Services.AddTransient<IStateService, StateService>();
 builder.Services.AddTransient<IGetAllStatesUseCase, GetAll>();
 builder.Services.AddTransient<IGetByIdStatesUseCase, GetByIdStateCase>();
 builder.Services.AddTransient<ISaveStatesUseCase, SaveStateCase>();
 builder.Services.AddTransient<IUpdateStatesUseCase, UpdateStateCase>();
 builder.Services.AddTransient<IDeleteStatesUseCase, DeleteStateCase>();
+
+// Institution
+builder.Services.AddTransient<IInstitutionService, InstitutionService>();
+builder.Services.AddTransient<IGetAllInstitutionUseCase, GetAllInstitutionCase>();
+builder.Services.AddTransient<IGetByIdInstitutionUseCase, GetByIdInstitutionCase>();
+builder.Services.AddTransient<IGetByCodeInstitutionUseCase, GetByCodeInstitutionCase>();
+builder.Services.AddTransient<IGetByNameInstitutionUseCase, GetByNameInstitutionCase>();
+builder.Services.AddTransient<ISaveInstitutionUseCase, SaveInstitutionCase>();
+builder.Services.AddTransient<IUpdateInstitutionUseCase, UpdateInstitutionCase>();
+builder.Services.AddTransient<IDeleteInstitutionUseCase, DeleteInstitutionCase>();
 
 // Rol
 builder.Services.AddTransient<IRolService, RolService>();

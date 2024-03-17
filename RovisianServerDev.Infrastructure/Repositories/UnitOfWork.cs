@@ -11,6 +11,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         private readonly IBaseRepository<RolEntity>? _rolRepository = null;
         private readonly IBaseRepository<BancoEntity>? _bancoRepository = null;
         private readonly IUserRepository? _usuarioRepository = null;
+        private readonly IInstitutionRepository? _institutionRepository = null;
 
         public UnitOfWork(RovisianDBContext context)
         {
@@ -21,6 +22,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         public IBaseRepository<RolEntity> RolRepository => _rolRepository ?? new BaseRepository<RolEntity>(_context);
         public IBaseRepository<BancoEntity> BancoRepository => _bancoRepository?? new BaseRepository<BancoEntity>(_context);
         public IUserRepository UsuarioRepository => _usuarioRepository ?? new UserRepository(_context);
+        public IInstitutionRepository InstitutionRepository => _institutionRepository ?? new InstitutionRepository(_context);
 
         public void Dispose()
         {

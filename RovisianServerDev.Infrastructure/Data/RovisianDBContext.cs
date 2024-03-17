@@ -116,7 +116,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_institucion")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.Id).HasColumnName("InstitucionId").HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Borrado).HasDefaultValueSql("((0))");
 

@@ -9,12 +9,13 @@ namespace RovisianServerDev.Infrastructure.AutoMapper
         public AutoMapperProfile()
         {
             //Banco
-            //Rol
             CreateMap<BankDTO, BancoEntity>().ReverseMap();
+            //Institucion
+            CreateMap<InstitutionDTO, InstitucionEntity>().ReverseMap();
             // User Mapper
             CreateMap<UsuarioEntity,UserDTO>();
             CreateMap<UserDTO, UsuarioEntity>();
-            //State
+            //State|
             CreateMap<EstadoEntity, StateDTO>();
             CreateMap<StateDTO, EstadoEntity>();
             //Rol
