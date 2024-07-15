@@ -12,7 +12,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
 
         public async Task<InstitucionEntity?> GetByCode(int code)
         {
-            return await _entities.FirstOrDefaultAsync(x => x.Borrado == false);
+            return await _entities.FirstOrDefaultAsync(x => x.Codigo==code&& x.Borrado == false);
         }
 
         public async Task<IEnumerable<InstitucionEntity>> GetByName(string name)

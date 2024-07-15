@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RovisianServerDev.Application.DTOs;
 using RovisianServerDev.Application.UseCases.Institution;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RovisianServerDev.Api.Controllers
 {
@@ -27,15 +28,23 @@ namespace RovisianServerDev.Api.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Obtener lista de instituciones registradas")]
+        [SwaggerResponse(200, "Devuelve las instituciones registradas", typeof(IEnumerable<InstitutionGetDTO>))]
         public async Task<ActionResult> GetAll() => Ok(await _getAll.Call(null));
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Obtiene una institución por su ID")]
+        [SwaggerResponse(200, "Devuelve la institución encontrada", typeof(InstitutionGetDTO))]
         public async Task<ActionResult> GetById(Guid id) => Ok(await _getById.Call(id));
 
         [HttpGet("ByCode/{code}")]
+        [SwaggerOperation(Summary = "Obtiene una institución por su código")]
+        [SwaggerResponse(200, "Devuelve la institución encontrada", typeof(InstitutionGetDTO))]
         public async Task<ActionResult> GetByCode(int code) => Ok(await _getByCode.Call(code));
 
         [HttpGet("ByName/{name}")]
+        [SwaggerOperation(Summary = "Obtiene instituciones por nombre")]
+        [SwaggerResponse(200, "Devuelve la lista de instituciones que coinciden con el nombre proporcionado", typeof(IEnumerable<InstitutionGetDTO>))]
         public async Task<ActionResult> GetByName(string name) => Ok(await _getByName.Call(name));
 
         [HttpPost]

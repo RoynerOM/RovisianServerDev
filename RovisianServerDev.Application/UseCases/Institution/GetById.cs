@@ -5,7 +5,7 @@ using RovisianServerDev.Domain.Interfaces;
 
 namespace RovisianServerDev.Application.UseCases.Institution
 {
-    public interface IGetByIdInstitutionUseCase : IUseCase<InstitutionDTO, Guid> { }
+    public interface IGetByIdInstitutionUseCase : IUseCase<InstitutionGetDTO, Guid> { }
 
     public class GetByIdInstitutionCase : IGetByIdInstitutionUseCase
     {
@@ -17,6 +17,6 @@ namespace RovisianServerDev.Application.UseCases.Institution
             this._mapper = mapper;
         }
 
-        public async Task<InstitutionDTO> Call(Guid id) => _mapper.Map<InstitutionDTO>(await _institutionService.GetById(id));
+        public async Task<InstitutionGetDTO> Call(Guid id) => _mapper.Map<InstitutionGetDTO>(await _institutionService.GetById(id));
     }
 }

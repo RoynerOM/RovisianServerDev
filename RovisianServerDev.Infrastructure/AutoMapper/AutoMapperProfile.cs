@@ -12,6 +12,7 @@ namespace RovisianServerDev.Infrastructure.AutoMapper
             CreateMap<BankDTO, BancoEntity>().ReverseMap();
             //Institucion
             CreateMap<InstitutionDTO, InstitucionEntity>().ReverseMap();
+            CreateMap<InstitutionGetDTO, InstitucionEntity>().ReverseMap();
             // User Mapper
             CreateMap<UsuarioEntity,UserDTO>();
             CreateMap<UserDTO, UsuarioEntity>();

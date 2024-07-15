@@ -32,7 +32,15 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Rovisian API",
+        Version = "v1"
+    });
+    c.EnableAnnotations();
+});
 
 // Fluent para validar los campos del DTO que son requeridos o que tengan el formato correcto
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
