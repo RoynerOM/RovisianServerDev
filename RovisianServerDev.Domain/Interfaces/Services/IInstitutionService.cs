@@ -6,6 +6,7 @@ namespace RovisianServerDev.Domain.Interfaces.Services
     {
         Task<IEnumerable<InstitucionEntity>> GetAll();
         Task<IEnumerable<InstitucionEntity>> GetByName(string name);
+        Task<IEnumerable<InstitucionEntity>> GetByUser(Guid userId);
         Task<InstitucionEntity> GetById(Guid id);
         Task<InstitucionEntity> GetByCode(int code);
         Task Save(InstitucionEntity e);

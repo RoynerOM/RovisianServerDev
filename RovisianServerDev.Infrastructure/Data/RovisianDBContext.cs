@@ -53,7 +53,7 @@ namespace RovisianServerDev.Infrastructure.Data
 
                 entity.ToTable("tCaso");
 
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.Property(e => e.Id).HasColumnName("CasoId").HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Borrado).HasDefaultValueSql("((0))");
 

@@ -12,6 +12,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         private readonly IBaseRepository<BancoEntity>? _bancoRepository = null;
         private readonly IUserRepository? _usuarioRepository = null;
         private readonly IInstitutionRepository? _institutionRepository = null;
+        private readonly ICaseRepository? _caseRepository = null;   
 
         public UnitOfWork(RovisianDBContext context)
         {
@@ -23,6 +24,7 @@ namespace RovisianServerDev.Infrastructure.Repositories
         public IBaseRepository<BancoEntity> BancoRepository => _bancoRepository?? new BaseRepository<BancoEntity>(_context);
         public IUserRepository UsuarioRepository => _usuarioRepository ?? new UserRepository(_context);
         public IInstitutionRepository InstitutionRepository => _institutionRepository ?? new InstitutionRepository(_context);
+        public ICaseRepository CaseRepository => _caseRepository ?? new CaseRepository(_context);
 
         public void Dispose()
         {

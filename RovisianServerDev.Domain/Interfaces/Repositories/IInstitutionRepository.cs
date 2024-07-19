@@ -6,5 +6,6 @@ namespace RovisianServerDev.Domain.Interfaces.Repositories
     {
         Task<InstitucionEntity?> GetByCode(int code);
         Task<IEnumerable<InstitucionEntity>> GetByName(string name);
+        Task<IEnumerable<InstitucionEntity>> GetByUser(Guid userId);
     }
 }

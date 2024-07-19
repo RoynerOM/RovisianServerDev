@@ -16,7 +16,15 @@ namespace RovisianServerDev.Api.Controllers
         private readonly ISaveInstitutionUseCase _save;
         private readonly IGetByCodeInstitutionUseCase _getByCode;
         private readonly IGetByNameInstitutionUseCase _getByName;
-        public InstitutionController(IGetAllInstitutionUseCase getAll, IGetByIdInstitutionUseCase getById, IDeleteInstitutionUseCase delete, IUpdateInstitutionUseCase update, ISaveInstitutionUseCase save, IGetByCodeInstitutionUseCase getByCode, IGetByNameInstitutionUseCase getByName)
+        private readonly IGetByUserInstitutionUseCase _getByUser;
+        public InstitutionController(IGetAllInstitutionUseCase getAll,
+                                     IGetByIdInstitutionUseCase getById,
+                                     IDeleteInstitutionUseCase delete,
+                                     IUpdateInstitutionUseCase update,
+                                     ISaveInstitutionUseCase save,
+                                     IGetByCodeInstitutionUseCase getByCode,
+                                     IGetByNameInstitutionUseCase getByName,
+                                     IGetByUserInstitutionUseCase getByUser)
         {
             this._getAll = getAll;
             this._getById = getById;
@@ -25,6 +33,7 @@ namespace RovisianServerDev.Api.Controllers
             this._save = save;
             this._getByCode = getByCode;
             this._getByName = getByName;
+            this._getByUser = getByUser;
         }
 
         [HttpGet]
@@ -46,6 +55,11 @@ namespace RovisianServerDev.Api.Controllers
         [SwaggerOperation(Summary = "Obtiene instituciones por nombre")]
         [SwaggerResponse(200, "Devuelve la lista de instituciones que coinciden con el nombre proporcionado", typeof(IEnumerable<InstitutionGetDTO>))]
         public async Task<ActionResult> GetByName(string name) => Ok(await _getByName.Call(name));
+
+        [HttpGet("ByUser/{id}")]
+        [SwaggerOperation(Summary = "Obtiene instituciones por contador")]
+        [SwaggerResponse(200, "Devuelve la lista de instituciones por contador", typeof(IEnumerable<InstitutionGetDTO>))]
+        public async Task<ActionResult> GetByUser(Guid id) => Ok(await _getByUser.Call(id));
 
         [HttpPost]
         public async Task<ActionResult> PostInstitution(InstitutionDTO dto) => Ok(await _save.Call(dto));

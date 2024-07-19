@@ -9,6 +9,7 @@ namespace RovisianServerDev.Domain.Interfaces.Repositories
         IBaseRepository<BancoEntity> BancoRepository { get; }
         IUserRepository UsuarioRepository { get; }
         IInstitutionRepository InstitutionRepository { get; }
+        ICaseRepository CaseRepository { get; }
 
         void SaveChanges();
 

@@ -103,6 +103,7 @@ builder.Services.AddTransient<IGetByNameInstitutionUseCase, GetByNameInstitution
 builder.Services.AddTransient<ISaveInstitutionUseCase, SaveInstitutionCase>();
 builder.Services.AddTransient<IUpdateInstitutionUseCase, UpdateInstitutionCase>();
 builder.Services.AddTransient<IDeleteInstitutionUseCase, DeleteInstitutionCase>();
+builder.Services.AddTransient<IGetByUserInstitutionUseCase, GetByUserInstitutions>();
 
 // Rol
 builder.Services.AddTransient<IRolService, RolService>();
@@ -155,7 +156,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -164,6 +165,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseSession();
 app.UseHttpsRedirection();
+//
+app.UseRouting();
 app.MapControllers();
 app.UseResponseCompression();
 app.UseAuthorization();
