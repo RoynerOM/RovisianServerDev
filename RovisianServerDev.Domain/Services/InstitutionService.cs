@@ -2,6 +2,7 @@
 using RovisianServerDev.Domain.Error;
 using RovisianServerDev.Domain.Interfaces.Repositories;
 using RovisianServerDev.Domain.Interfaces.Services;
+using System.Xml.Linq;
 
 namespace RovisianServerDev.Domain.Services
 {
@@ -53,6 +54,11 @@ namespace RovisianServerDev.Domain.Services
         public async Task<IEnumerable<InstitucionEntity>> GetByName(string name)
         {
             return await _unitOfWork.InstitutionRepository.GetByName(name);
+        }
+
+        public async Task<IEnumerable<InstitucionEntity>> GetByUser(Guid userId)
+        {
+            return await _unitOfWork.InstitutionRepository.GetByUser(userId);
         }
 
         public async Task Save(InstitucionEntity e)

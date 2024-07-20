@@ -5,18 +5,19 @@ using RovisianServerDev.Domain.Interfaces;
 
 namespace RovisianServerDev.Application.UseCases.Institution
 {
-    public interface IGetByIdInstitutionUseCase : IUseCase<InstitutionGetDTO, Guid> { }
+    public interface IGetByUserInstitutionUseCase : IUseCase<IEnumerable<InstitutionGetDTO>, Guid> { }
 
-    public class GetByIdInstitutionCase : IGetByIdInstitutionUseCase
+    public class GetByUserInstitutions : IGetByUserInstitutionUseCase
     {
+
         private readonly IInstitutionService _institutionService;
         private readonly IMapper _mapper;
-        public GetByIdInstitutionCase(IInstitutionService institutionService, IMapper mapper)
+        public GetByUserInstitutions(IInstitutionService institutionService, IMapper mapper)
         {
             this._institutionService = institutionService;
             this._mapper = mapper;
         }
 
-        public async Task<InstitutionGetDTO> Call(Guid id) => _mapper.Map<InstitutionGetDTO>(await _institutionService.GetById(id));
+        public async Task<IEnumerable<InstitutionGetDTO>> Call(Guid values) => _mapper.Map<IEnumerable<InstitutionGetDTO>>(await _institutionService.GetByUser(values));
     }
 }

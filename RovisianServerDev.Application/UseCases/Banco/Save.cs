@@ -25,7 +25,7 @@ namespace RovisianServerDev.Application.UseCases.Banco
             {
                 throw new ParamNullException("Bank no puede ser nulo.");
             }
-
+            dto.Id = Guid.NewGuid();
             await _bancoService.Save(_mapper.Map<BancoEntity>(dto));
             return Task.CompletedTask;
         }

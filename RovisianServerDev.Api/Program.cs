@@ -32,7 +32,15 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Rovisian API",
+        Version = "v1"
+    });
+    c.EnableAnnotations();
+});
 
 // Fluent para validar los campos del DTO que son requeridos o que tengan el formato correcto
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
@@ -95,6 +103,7 @@ builder.Services.AddTransient<IGetByNameInstitutionUseCase, GetByNameInstitution
 builder.Services.AddTransient<ISaveInstitutionUseCase, SaveInstitutionCase>();
 builder.Services.AddTransient<IUpdateInstitutionUseCase, UpdateInstitutionCase>();
 builder.Services.AddTransient<IDeleteInstitutionUseCase, DeleteInstitutionCase>();
+builder.Services.AddTransient<IGetByUserInstitutionUseCase, GetByUserInstitutions>();
 
 // Rol
 builder.Services.AddTransient<IRolService, RolService>();
@@ -147,7 +156,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -156,6 +165,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseSession();
 app.UseHttpsRedirection();
+//
+app.UseRouting();
 app.MapControllers();
 app.UseResponseCompression();
 app.UseAuthorization();
