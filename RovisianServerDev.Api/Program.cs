@@ -26,6 +26,15 @@ var builder = WebApplication.CreateBuilder(args);
 //Carga las variables de entorno
 builder.Configuration.AddEnvironmentVariables();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var port = Environment.GetEnvironmentVariable("PORT");
+    if (!string.IsNullOrEmpty(port) && int.TryParse(port, out var portNumber))
+    {
+        options.ListenAnyIP(portNumber);
+    }
+});
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ExceptionFilter>();
@@ -57,7 +66,8 @@ builder.Services.AddResponseCompression(options =>
 });
 
 // Configuracion para autenticación basada en Tokens
-builder.Services.AddAuthentication(options => {
+builder.Services.AddAuthentication(options =>
+{
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
@@ -80,7 +90,7 @@ builder.Services.AddAuthentication(options => {
 builder.Services.AddMvc(x => x.Filters.Add<ValidationFilter>());
 
 //DBContext
-builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Rovisian")));
+builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -162,6 +172,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseCors();
 app.UseSession();
 app.UseHttpsRedirection();
@@ -171,4 +182,3 @@ app.MapControllers();
 app.UseResponseCompression();
 app.UseAuthorization();
 app.Run();
-
