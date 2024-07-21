@@ -89,11 +89,20 @@ builder.Services.AddAuthentication(options =>
 //Filtro para validar el modelo recibido de forma globlal y automatico
 builder.Services.AddMvc(x => x.Filters.Add<ValidationFilter>());
 
-//DBContext
-var connectionDB = builder.Configuration.GetConnectionString("MySQL");
-//builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
-builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
-
+if (builder.Environment.IsProduction())
+{
+    //DBContext
+    var connectionDB = builder.Configuration.GetConnectionString("Railway");
+    //builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
+    builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
+}
+else
+{
+    //DBContext
+    var connectionDB = builder.Configuration.GetConnectionString("MySQL");
+    //builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
+    builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
+}
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -171,11 +180,7 @@ var app = builder.Build();
 
 
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    c.RoutePrefix = "swagger";
-});
+app.UseSwaggerUI();
 
 app.UseStaticFiles();
 app.UseCors();
