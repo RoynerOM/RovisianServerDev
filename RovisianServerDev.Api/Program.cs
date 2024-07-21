@@ -26,6 +26,15 @@ var builder = WebApplication.CreateBuilder(args);
 //Carga las variables de entorno
 builder.Configuration.AddEnvironmentVariables();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var port = Environment.GetEnvironmentVariable("PORT");
+    if (!string.IsNullOrEmpty(port) && int.TryParse(port, out var portNumber))
+    {
+        options.ListenAnyIP(portNumber);
+    }
+});
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ExceptionFilter>();
@@ -160,6 +169,16 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -167,7 +186,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-
+app.UseStaticFiles();
 app.UseCors();
 app.UseSession();
 app.UseHttpsRedirection();

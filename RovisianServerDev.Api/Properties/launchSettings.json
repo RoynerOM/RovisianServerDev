@@ -4,6 +4,26 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
+      "applicationUrl": "http://localhost:5000",
+      "sslPort": 44300
+    }
+  },
+  "profiles": {
+    "RovisianServerDev.Api": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    }
+  }
+  /* "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
       "applicationUrl": "http://localhost:32988",
       "sslPort": 44374
     }
@@ -27,5 +47,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
-  }
+  }*/
+
 }
