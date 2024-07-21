@@ -22,18 +22,20 @@ namespace RovisianServerDev.Application.UseCases.User
         }
 
 
-        public async Task<Task> Call(UserDTO? values)
+        public async Task<Task> Call(UserDTO? dto)
         {
+            dto!.Id = dto.Id == Guid.Empty ? Guid.NewGuid() : dto.Id;
+
             byte[] salt = _passwordService.GenerateSalt();
 
-            if (values == null)
+            if (dto == null)
             {
-                throw new ParamNullException("UserDTO no puede ser nulo.");
+                throw new ParamNullException("User no puede ser nulo.");
             }
 
-            UsuarioEntity userEntity = _mapper.Map<UsuarioEntity>(values);
+            UsuarioEntity userEntity = _mapper.Map<UsuarioEntity>(dto);
 
-            userEntity.Contrasenna = _passwordService.Hash(values.Contrasenna,salt);
+            userEntity.Contrasenna = _passwordService.Hash(dto.Contrasenna,salt);
             userEntity.Firma = Convert.ToBase64String(salt);
 
             await _userService.Save(userEntity);

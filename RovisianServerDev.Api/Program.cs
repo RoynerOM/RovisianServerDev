@@ -23,7 +23,6 @@ using RovisianServerDev.Application.UseCases.Institution;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Carga las variables de entorno
 builder.Configuration.AddEnvironmentVariables();
 
 builder.WebHost.ConfigureKestrel(options =>
@@ -51,12 +50,10 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 });
 
-// Fluent para validar los campos del DTO que son requeridos o que tengan el formato correcto
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 
-// Servicio que permite la compresion de datos de respuesta para que sean mas liviados
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
@@ -65,14 +62,12 @@ builder.Services.AddResponseCompression(options =>
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
 });
 
-// Configuracion para autenticación basada en Tokens
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    // Validacion del token recibidos
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -81,26 +76,20 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        // Firma de token
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
 
-//Filtro para validar el modelo recibido de forma globlal y automatico
 builder.Services.AddMvc(x => x.Filters.Add<ValidationFilter>());
 
 if (builder.Environment.IsProduction())
 {
-    //DBContext
     var connectionDB = builder.Configuration.GetConnectionString("Railway");
-    //builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
     builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
 }
 else
 {
-    //DBContext
     var connectionDB = builder.Configuration.GetConnectionString("MySQL");
-    //builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
     builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
 }
 
@@ -178,15 +167,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseStaticFiles();
 app.UseCors();
 app.UseSession();
 app.UseHttpsRedirection();
-//
 app.UseRouting();
 app.MapControllers();
 app.UseResponseCompression();
