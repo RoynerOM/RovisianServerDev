@@ -2,14 +2,14 @@
 using RovisianServerDev.Domain.Entities;
 using RovisianServerDev.Infrastructure.Data.Configurations;
 
+
 namespace RovisianServerDev.Infrastructure.Data
-{/*
+{
     public partial class RovisianDBContext : DbContext
     {
         public RovisianDBContext()
         {
         }
-
         public RovisianDBContext(DbContextOptions<RovisianDBContext> options)
             : base(options)
         {
@@ -32,7 +32,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasKey(e => e.Id)
                     .HasName("PK__tBanco__4A8BAFF57FC62C99");
 
-                entity.ToTable("tBanco");
+                entity.ToTable("tbanco");
 
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_banco")
                     .IsUnique();
@@ -51,7 +51,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasKey(e => e.Id)
                     .HasName("PK__tCaso__692E7553B39A4F2B");
 
-                entity.ToTable("tCaso");
+                entity.ToTable("tcaso");
 
                 entity.Property(e => e.Id).HasColumnName("CasoId").HasDefaultValueSql("(newid())");
 
@@ -86,7 +86,7 @@ namespace RovisianServerDev.Infrastructure.Data
 
             modelBuilder.Entity<EstadoEntity>(entity =>
             {
-                entity.ToTable("tEstado");
+                entity.ToTable("testado");
 
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_estado")
                     .IsUnique();
@@ -105,7 +105,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasKey(e => e.Id)
                     .HasName("PK__tInstitu__706D41C9DCD4EEC7");
 
-                entity.ToTable("tInstitucion");
+                entity.ToTable("tinstitucion");
 
                 entity.HasIndex(e => e.CedulaJuridica, "UQ_cj_institucion")
                     .IsUnique();
@@ -166,7 +166,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasKey(e => e.Id)
                     .HasName("PK__tRol__F92302F18726AA9E");
 
-                entity.ToTable("tRol");
+                entity.ToTable("trol");
 
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_rol")
                     .IsUnique();
@@ -190,7 +190,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasKey(e => e.RutaId)
                     .HasName("PK__tRuta__7B61998EB189A792");
 
-                entity.ToTable("tRuta");
+                entity.ToTable("truta");
 
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_ruta")
                     .IsUnique();
@@ -203,7 +203,7 @@ namespace RovisianServerDev.Infrastructure.Data
                 entity.HasKey(e => e.TipoId)
                     .HasName("PK__tTipoIns__97099EB7F8B6DF05");
 
-                entity.ToTable("tTipoInstitucion");
+                entity.ToTable("ttipoinstitucion");
 
                 entity.HasIndex(e => e.Nombre, "UQ_nombre_tipoins")
                     .IsUnique();
@@ -219,5 +219,6 @@ namespace RovisianServerDev.Infrastructure.Data
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-    }*/
+    
+}
 }

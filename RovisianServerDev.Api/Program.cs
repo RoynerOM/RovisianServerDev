@@ -57,7 +57,8 @@ builder.Services.AddResponseCompression(options =>
 });
 
 // Configuracion para autenticación basada en Tokens
-builder.Services.AddAuthentication(options => {
+builder.Services.AddAuthentication(options =>
+{
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
@@ -80,7 +81,17 @@ builder.Services.AddAuthentication(options => {
 builder.Services.AddMvc(x => x.Filters.Add<ValidationFilter>());
 
 //DBContext
-builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("Rovisian")));
+if (builder.Environment.IsProduction())
+{
+    var railway = builder.Configuration.GetConnectionString("Railway");
+    builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(railway, ServerVersion.AutoDetect(railway)));
+}
+else
+{
+    var connectionDB = builder.Configuration.GetConnectionString("MySQL");
+    //builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
+    builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
+}
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

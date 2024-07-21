@@ -11,7 +11,7 @@ namespace RovisianServerDev.Infrastructure.Data.Configurations
         {
             entity.HasKey(e => e.Id)
                 .HasName("PK__tUsuario__2B3DE7B852F4EF0C");
-            entity.ToTable("tUsuario");
+            entity.ToTable("tusuario");
 
             entity.HasIndex(e => e.Carnet, "UQ_carnet_usuario")
                 .IsUnique();
