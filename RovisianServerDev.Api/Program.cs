@@ -81,17 +81,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddMvc(x => x.Filters.Add<ValidationFilter>());
 
 //DBContext
-if (builder.Environment.IsProduction())
-{
-    var railway = builder.Configuration.GetConnectionString("Railway");
-    builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(railway, ServerVersion.AutoDetect(railway)));
-}
-else
-{
-    var connectionDB = builder.Configuration.GetConnectionString("MySQL");
-    //builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
-    builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
-}
+var connectionDB = builder.Configuration.GetConnectionString("MySQL");
+//builder.Services.AddDbContext<RovisianDBContext>(option => option.UseSqlServer(connectionDB!));
+builder.Services.AddDbContext<RovisianDBContext>(option => option.UseMySql(connectionDB, ServerVersion.AutoDetect(connectionDB)));
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -167,11 +160,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    c.RoutePrefix = "swagger";
+});
+
 
 app.UseCors();
 app.UseSession();
