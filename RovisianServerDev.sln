@@ -7,15 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RovisianServerDev.Api", "Ro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RovisianServerDev.Infrastructure", "RovisianServerDev.Infrastructure\RovisianServerDev.Infrastructure.csproj", "{7EE4DECE-C879-4500-9617-24A419981331}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6AB02472-ABA7-401B-932C-4DC7BDB0ACC3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RovisianServerDev.UnitTest", "RovisianServerDev.UnitTest\RovisianServerDev.UnitTest.csproj", "{784AA598-7F2E-46D6-A771-0829861BC160}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RovisianServerDev.IntegrationTest", "RovisianServerDev.IntegrationTest\RovisianServerDev.IntegrationTest.csproj", "{42214ECC-A7BC-4944-AF1E-5E6252D6AE4B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RovisianServerDev.Application", "RovisianServerDev.Application\RovisianServerDev.Application.csproj", "{9E580DF6-156D-447F-B384-9E4720F2D052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RovisianServerDev.Domain", "RovisianServerDev.Domain\RovisianServerDev.Domain.csproj", "{270F1922-B614-4114-A252-95E5B6C51247}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RovisianServerDev.Domain", "RovisianServerDev.Domain\RovisianServerDev.Domain.csproj", "{270F1922-B614-4114-A252-95E5B6C51247}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +25,6 @@ Global
 		{7EE4DECE-C879-4500-9617-24A419981331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EE4DECE-C879-4500-9617-24A419981331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EE4DECE-C879-4500-9617-24A419981331}.Release|Any CPU.Build.0 = Release|Any CPU
-		{784AA598-7F2E-46D6-A771-0829861BC160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{784AA598-7F2E-46D6-A771-0829861BC160}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{784AA598-7F2E-46D6-A771-0829861BC160}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{784AA598-7F2E-46D6-A771-0829861BC160}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42214ECC-A7BC-4944-AF1E-5E6252D6AE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42214ECC-A7BC-4944-AF1E-5E6252D6AE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42214ECC-A7BC-4944-AF1E-5E6252D6AE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42214ECC-A7BC-4944-AF1E-5E6252D6AE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E580DF6-156D-447F-B384-9E4720F2D052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E580DF6-156D-447F-B384-9E4720F2D052}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E580DF6-156D-447F-B384-9E4720F2D052}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,10 +36,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{784AA598-7F2E-46D6-A771-0829861BC160} = {6AB02472-ABA7-401B-932C-4DC7BDB0ACC3}
-		{42214ECC-A7BC-4944-AF1E-5E6252D6AE4B} = {6AB02472-ABA7-401B-932C-4DC7BDB0ACC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22E54BD2-AF46-4179-B7A0-E3490BB457D9}
