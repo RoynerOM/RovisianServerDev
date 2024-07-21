@@ -10,6 +10,8 @@ COPY RovisianServerDev.Api/RovisianServerDev.Api.csproj RovisianServerDev.Api/
 COPY RovisianServerDev.Application/RovisianServerDev.Application.csproj RovisianServerDev.Application/
 COPY RovisianServerDev.Domain/RovisianServerDev.Domain.csproj RovisianServerDev.Domain/
 COPY RovisianServerDev.Infrastructure/RovisianServerDev.Infrastructure.csproj RovisianServerDev.Infrastructure/
+COPY RovisianServerDev.IntegrationTest/RovisianServerDev.IntegrationTest.csproj RovisianServerDev.IntegrationTest/
+COPY RovisianServerDev.UnitTest/RovisianServerDev.UnitTest.csproj RovisianServerDev.UnitTest/
 
 # Restaurar las dependencias
 RUN dotnet restore
