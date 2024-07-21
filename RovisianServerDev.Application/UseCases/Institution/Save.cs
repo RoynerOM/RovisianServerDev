@@ -22,6 +22,8 @@ namespace RovisianServerDev.Application.UseCases.Institution
 
         public async Task<Task> Call(InstitutionDTO? dto)
         {
+            dto!.Id = dto.Id == Guid.Empty ? Guid.NewGuid() : dto.Id;
+
             if (dto == null)
             {
                 throw new ParamNullException("Institucion no puede ser nulo.");
