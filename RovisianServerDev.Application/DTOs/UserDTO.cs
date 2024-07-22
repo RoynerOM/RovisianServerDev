@@ -10,7 +10,6 @@
         public string? Carnet { get; set; }
         public string Correo { get; set; } = null!;
         public string Contrasenna { get; set; } = null!;
-        //public string Firma { get; set; } = null!;
         public bool? Activo { get; set; }
         public DateTime? UtimaVez { get; set; }
         public Guid? RolId { get; set; }

@@ -75,10 +75,17 @@ namespace RovisianServerDev.Domain.Services
                 throw new DataNotFoundException($"No se pudo encontrar el Estado con el ID proporcionado");
             }
 
-            //UsuarioEntity model = await _unitOfWork.UsuarioRepository.GetById(e.Id);
-            //model.Nombre = e.Nombre;
+            UsuarioEntity model = await _unitOfWork.UsuarioRepository.GetById(e.Id);
+            model.Nombre = e.Nombre;
+            model.Apellidos = e.Apellidos;
+            model.TipoCedula = e.TipoCedula;
+            model.Carnet = e.Carnet;
+            model.Correo = e.Correo;
+            model.RolId = e.RolId;
+            model.Contrasenna = e.Contrasenna;
+           
 
-            _unitOfWork.UsuarioRepository.Update(e);
+            _unitOfWork.UsuarioRepository.Update(model);
 
             await _unitOfWork.SaveChangesAsync();
             return true;
