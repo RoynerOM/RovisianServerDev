@@ -139,6 +139,7 @@ builder.Services.AddTransient<IGetByIdUserUseCase, GetByIdUser>();
 builder.Services.AddTransient<IDeleteUserUseCase, DeleteUser>();
 builder.Services.AddTransient<IUpdateUserUseCase, UpdateUser>();
 builder.Services.AddTransient<ISaveUserUseCase, SaveUser>();
+builder.Services.AddTransient<IGetUsersByRolUseCase, GetUsersByRolUseCase>();
 
 //Token
 builder.Services.AddTransient<ICreateTokenUseCase, CreateToken>();

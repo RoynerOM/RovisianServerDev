@@ -44,6 +44,11 @@ namespace RovisianServerDev.Domain.Services
             return await _unitOfWork.UsuarioRepository.GetById(id);
         }
 
+        public async Task<IEnumerable<UsuarioEntity>> GetByRol(Guid rolId)
+        {
+          return  await _unitOfWork.UsuarioRepository.GetByRol(rolId);
+        }
+
         public async Task<UsuarioEntity> GetLogin(string dni)
         {
             UsuarioEntity? userEntity = await _unitOfWork.UsuarioRepository.GetLogin(dni);

@@ -9,7 +9,7 @@ namespace RovisianServerDev.Domain.Interfaces.Services
         Task Save(UsuarioEntity e);
         Task<bool> Update(UsuarioEntity e);
         Task<bool> Delete(Guid id);
-
+        Task<IEnumerable<UsuarioEntity>> GetByRol(Guid rolId);
         Task<UsuarioEntity> GetLogin(string dni);
     }
 }

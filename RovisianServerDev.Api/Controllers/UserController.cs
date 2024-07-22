@@ -14,14 +14,15 @@ namespace RovisianServerDev.Api.Controllers
         private readonly IDeleteUserUseCase _deleteUser;
         private readonly IUpdateUserUseCase _updateUser;
         private readonly ISaveUserUseCase _saveUser;
-     
-        public UserController(IGetAllUsersUseCase getAllUsers, IGetByIdUserUseCase getByIdUserUseCase, IDeleteUserUseCase deleteUserUseCase, IUpdateUserUseCase updateUserUseCase, ISaveUserUseCase saveUserUseCase)
+        private readonly IGetUsersByRolUseCase _getByRol;
+        public UserController(IGetAllUsersUseCase getAllUsers, IGetByIdUserUseCase getByIdUserUseCase, IDeleteUserUseCase deleteUserUseCase, IUpdateUserUseCase updateUserUseCase, ISaveUserUseCase saveUserUseCase, IGetUsersByRolUseCase getByRol)
         {
             this._getAllUsers = getAllUsers;
             this._getByIdUser = getByIdUserUseCase;
             this._deleteUser = deleteUserUseCase;
             this._updateUser = updateUserUseCase;
             this._saveUser = saveUserUseCase;
+            this._getByRol = getByRol;   
         }
 
         [HttpGet]
@@ -47,10 +48,8 @@ namespace RovisianServerDev.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> PutUsuario(Guid id, UserDTO model)
+        public async Task<ActionResult> PutUsuario(UserDTO model)
         {
-            model.Id = id;
-
             var data = await _updateUser.Call(model);
             return Ok(data);
         }
@@ -61,6 +60,13 @@ namespace RovisianServerDev.Api.Controllers
             var data = await _deleteUser.Call(id);
 
             return Ok(data);
+        }
+        // Aplicar a las demas capas
+        [HttpGet("ByRol/{id}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDTO>))]
+        public async Task<ActionResult> GetByRol(Guid id)
+        {
+            return Ok(await _getByRol.Call(id));
         }
     }
 }
