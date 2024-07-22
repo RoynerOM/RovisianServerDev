@@ -44,15 +44,20 @@ namespace RovisianServerDev.Domain.Services
             return await _unitOfWork.UsuarioRepository.GetById(id);
         }
 
+        public async Task<IEnumerable<UsuarioEntity>> GetByName(string name)
+        {
+            return await _unitOfWork.UsuarioRepository.GetByName(name);
+        }
+
         public async Task<IEnumerable<UsuarioEntity>> GetByRol(Guid rolId)
         {
-          return  await _unitOfWork.UsuarioRepository.GetByRol(rolId);
+            return await _unitOfWork.UsuarioRepository.GetByRol(rolId);
         }
 
         public async Task<UsuarioEntity> GetLogin(string dni)
         {
             UsuarioEntity? userEntity = await _unitOfWork.UsuarioRepository.GetLogin(dni);
-            return userEntity?? throw new DataNotFoundException($"Las credenciales del usuario proporcionado son inválidas"); 
+            return userEntity ?? throw new DataNotFoundException($"Las credenciales del usuario proporcionado son inválidas");
         }
 
         public async Task Save(UsuarioEntity e)
@@ -83,7 +88,7 @@ namespace RovisianServerDev.Domain.Services
             model.Correo = e.Correo;
             model.RolId = e.RolId;
             model.Contrasenna = e.Contrasenna;
-           
+
 
             _unitOfWork.UsuarioRepository.Update(model);
 

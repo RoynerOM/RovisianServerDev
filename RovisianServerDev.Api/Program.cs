@@ -135,12 +135,12 @@ builder.Services.AddTransient<ISaveBancoUseCase, SaveBancoCase>();
 // Usuario
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<IGetAllUsersUseCase, GetAllUsers>();
-builder.Services.AddTransient<IGetByIdUserUseCase, GetByIdUser>();
+builder.Services.AddTransient<IGetUserByIdUseCase, GetByIdUser>();
 builder.Services.AddTransient<IDeleteUserUseCase, DeleteUser>();
 builder.Services.AddTransient<IUpdateUserUseCase, UpdateUser>();
 builder.Services.AddTransient<ISaveUserUseCase, SaveUser>();
-builder.Services.AddTransient<IGetUsersByRolUseCase, GetUsersByRolUseCase>();
-
+builder.Services.AddTransient<IGetUsersByRoleUseCase, GetUsersByRolUseCase>();
+builder.Services.AddTransient<IGetUsersByNameUseCase, GetUsersNameUseCase>();
 //Token
 builder.Services.AddTransient<ICreateTokenUseCase, CreateToken>();
 builder.Services.AddTransient<IIsValidUserUseCase, IsValidUser>();

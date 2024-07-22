@@ -6,9 +6,9 @@ using RovisianServerDev.Domain.Interfaces;
 
 namespace RovisianServerDev.Application.UseCases.User
 {
-    public interface IGetByIdUserUseCase : IUseCase<UserDTO, Guid> {}
+    public interface IGetUserByIdUseCase : IUseCase<UserDTO, Guid> {}
 
-    public class GetByIdUser : IGetByIdUserUseCase
+    public class GetByIdUser : IGetUserByIdUseCase
     {
         private readonly IUsuarioService _userService;
         private readonly IMapper _mapper;

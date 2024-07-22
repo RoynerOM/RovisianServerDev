@@ -8,21 +8,21 @@ namespace RovisianServerDev.Application.UseCases.User
 {
     using UserDTOList = IEnumerable<UserDTO>;
 
-    public interface IGetUsersByRoleUseCase : IUseCase<UserDTOList, Guid> { }
+    public interface IGetUsersByNameUseCase : IUseCase<UserDTOList, string> { }
 
-    public class GetUsersByRolUseCase : IGetUsersByRoleUseCase
+    public class GetUsersNameUseCase : IGetUsersByNameUseCase
     {
         private readonly IUsuarioService _userService;
         private readonly IMapper _mapper;
-        public GetUsersByRolUseCase(IUsuarioService userService, IMapper mapper)
+        public GetUsersNameUseCase(IUsuarioService userService, IMapper mapper)
         {
             this._userService = userService;
             this._mapper = mapper;
         }
 
-        public async Task<UserDTOList> Call(Guid rolId)
+        public async Task<UserDTOList> Call(string? name)
         {
-            IEnumerable<UsuarioEntity> usersEntities = await _userService.GetByRol(rolId);
+            IEnumerable<UsuarioEntity> usersEntities = await _userService.GetByName(name??"");
             return _mapper.Map<UserDTOList>(usersEntities);
         }
     }

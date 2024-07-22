@@ -11,5 +11,6 @@ namespace RovisianServerDev.Domain.Interfaces.Services
         Task<bool> Delete(Guid id);
         Task<IEnumerable<UsuarioEntity>> GetByRol(Guid rolId);
         Task<UsuarioEntity> GetLogin(string dni);
+        Task<IEnumerable<UsuarioEntity>> GetByName(string name);
     }
 }

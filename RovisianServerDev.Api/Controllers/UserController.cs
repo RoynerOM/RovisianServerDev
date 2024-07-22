@@ -2,6 +2,7 @@
 using RovisianServerDev.Application.DTOs;
 using RovisianServerDev.Application.UseCases.User;
 
+/// Aplciar refactor para los nombres de la clase de casos de usos
 namespace RovisianServerDev.Api.Controllers
 {
     [Produces("application/json")]
@@ -9,27 +10,36 @@ namespace RovisianServerDev.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IGetAllUsersUseCase _getAllUsers;
-        private readonly IGetByIdUserUseCase _getByIdUser;
-        private readonly IDeleteUserUseCase _deleteUser;
-        private readonly IUpdateUserUseCase _updateUser;
-        private readonly ISaveUserUseCase _saveUser;
-        private readonly IGetUsersByRolUseCase _getByRol;
-        public UserController(IGetAllUsersUseCase getAllUsers, IGetByIdUserUseCase getByIdUserUseCase, IDeleteUserUseCase deleteUserUseCase, IUpdateUserUseCase updateUserUseCase, ISaveUserUseCase saveUserUseCase, IGetUsersByRolUseCase getByRol)
+        private readonly IGetAllUsersUseCase _getAll;
+        private readonly IGetUserByIdUseCase _getById;
+        private readonly IDeleteUserUseCase _delete;
+        private readonly IUpdateUserUseCase _update;
+        private readonly ISaveUserUseCase _save;
+        private readonly IGetUsersByRoleUseCase _getByRol;
+        private readonly IGetUsersByNameUseCase _getByName;
+
+        public UserController(IGetAllUsersUseCase getAll,
+                              IGetUserByIdUseCase getById,
+                              IDeleteUserUseCase delete,
+                              IUpdateUserUseCase update,
+                              ISaveUserUseCase save,
+                              IGetUsersByRoleUseCase getByRol,
+                              IGetUsersByNameUseCase getByName)
         {
-            this._getAllUsers = getAllUsers;
-            this._getByIdUser = getByIdUserUseCase;
-            this._deleteUser = deleteUserUseCase;
-            this._updateUser = updateUserUseCase;
-            this._saveUser = saveUserUseCase;
-            this._getByRol = getByRol;   
+            _getAll = getAll;
+            _getById = getById;
+            _delete = delete;
+            _update = update;
+            _save = save;
+            _getByRol = getByRol;
+            _getByName = getByName;
         }
 
         [HttpGet]
-        [ProducesResponseType(200,Type = typeof(IEnumerable<UserDTO>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDTO>))]
         public async Task<ActionResult> GetAll()
         {
-            var data = await _getAllUsers.Call(null);
+            var data = await _getAll.Call(null);
             return Ok(data);
         }
 
@@ -37,27 +47,27 @@ namespace RovisianServerDev.Api.Controllers
         [ProducesResponseType(200, Type = typeof(UserDTO))]
         public async Task<ActionResult> GetById(Guid id)
         {
-            var data = await _getByIdUser.Call(id);
+            var data = await _getById.Call(id);
             return Ok(data);
         }
 
         [HttpPost]
         public async Task<ActionResult> PostUsuario(UserDTO? dto)
         {
-            return Ok(await _saveUser.Call(dto));
+            return Ok(await _save.Call(dto));
         }
 
         [HttpPut]
         public async Task<ActionResult> PutUsuario(UserDTO model)
         {
-            var data = await _updateUser.Call(model);
+            var data = await _update.Call(model);
             return Ok(data);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUsuario(Guid id)
         {
-            var data = await _deleteUser.Call(id);
+            var data = await _delete.Call(id);
 
             return Ok(data);
         }
@@ -67,6 +77,13 @@ namespace RovisianServerDev.Api.Controllers
         public async Task<ActionResult> GetByRol(Guid id)
         {
             return Ok(await _getByRol.Call(id));
+        }
+
+        [HttpGet("ByName/{name}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDTO>))]
+        public async Task<ActionResult> GetByName(string name)
+        {
+            return Ok(await _getByName.Call(name));
         }
     }
 }
